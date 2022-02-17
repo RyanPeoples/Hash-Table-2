@@ -66,7 +66,31 @@ class HashTable { // get O(1), set O(1), deleteKey O(1)
 
 
   resize() {
-    // Your code here
+    this.capacity*=2;
+    let oldData = this.data
+    this.data = new Array(this.capacity).fill(null)
+    for(let i=0;i<oldData.length;i++){
+      let someVar = true;
+      let ele = oldData[i]
+      let index = this.hashMod(ele.key)
+
+      let curr = this.data[index]
+      while (curr&&someVar) {
+        if (curr.key === ele.key) {
+          curr.value = ele.value;
+          someVar = false;
+        }
+        curr = curr.next
+      }
+      if (this.data[index]) {
+        let curr2 = this.data[index]
+        this.data[index] = ele.value
+        this.data[index].next = curr2
+      } else {
+        this.data[index] = ele.value
+      }
+    }
+    console.log(`${this.data}-----${this.data.length}`)
   }
 
 
